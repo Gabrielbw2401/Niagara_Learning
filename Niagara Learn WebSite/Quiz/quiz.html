@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Niagara IA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .quiz-container { max-width: 520px; margin: 40px auto; background: #23272b; border-radius: 12px; box-shadow: 0 4px 24px #0006; padding: 32px; }
+        .quiz-selects { display: flex; gap: 12px; margin-bottom: 18px; }
+        .quiz-question { margin: 24px 0 12px 0; font-size: 1.2em; }
+        .quiz-options label { display: block; margin: 8px 0; cursor: pointer; }
+        .quiz-progress { height: 8px; background: #333; border-radius: 4px; margin: 18px 0; overflow: hidden; }
+        .quiz-progress-bar { height: 100%; background: #00d4ff; width: 0; transition: width 0.3s; }
+        .quiz-feedback { margin: 12px 0; font-weight: bold; }
+        .quiz-feedback.good { color: #00ffae; }
+        .quiz-feedback.bad { color: #ff3c3c; }
+        .quiz-explication { color: #aaa; font-size: 0.98em; margin-bottom: 10px; }
+        .quiz-btn { background: #00d4ff; color: #181c20; border: none; border-radius: 5px; padding: 10px 18px; font-size: 1em; cursor: pointer; margin-top: 10px; }
+        .quiz-btn[disabled] { background: #444; color: #888; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <main>
+    <div class="quiz-container">
+        <h1>Quiz Niagara (IA)</h1>
+        <div class="quiz-selects">
+            <select id="theme-select">
+                <option value="">Choisir un thème</option>
+                <option>Forces</option>
+                <option>Rendu</option>
+                <option>Math</option>
+                <option>Logique</option>
+                <option>Particules</option>
+            </select>
+            <select id="niveau-select">
+                <option value="">Niveau</option>
+                <option>Débutant</option>
+                <option>Intermédiaire</option>
+                <option>Avancé</option>
+            </select>
+            <button id="start-btn" class="quiz-btn">Lancer le quiz</button>
+        </div>
+        <div id="quiz-area" style="display:none;">
+            <div class="quiz-progress"><div class="quiz-progress-bar" id="progress-bar"></div></div>
+            <div class="quiz-question" id="question-text"></div>
+            <form id="options-form" class="quiz-options"></form>
+            <button id="validate-btn" class="quiz-btn" disabled>Valider</button>
+            <div id="feedback"></div>
+        </div>
+        <div id="quiz-result" style="display:none;"></div>
+    </div>
+  </main>
+  <!-- Le footer est injecté dynamiquement -->
+    <script>
+    // Header dynamique
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script type="module">
+    // --- IA Quiz Logic ---
+    const themeSelect = document.getElementById('theme-select');
+    const niveauSelect = document.getElementById('niveau-select');
+    const startBtn = document.getElementById('start-btn');
+    const quizArea = document.getElementById('quiz-area');
+    const questionText = document.getElementById('question-text');
+    const optionsForm = document.getElementById('options-form');
+    const validateBtn = document.getElementById('validate-btn');
+    const feedbackDiv = document.getElementById('feedback');
+    const progressBar = document.getElementById('progress-bar');
+    const quizResult = document.getElementById('quiz-result');
+
+    let quiz = [];
+    let current = 0, score = 0;
+
+    // Fonction IA (simulée ici, à remplacer par un vrai appel API)
+    async function generateQuiz(theme, level, count = 5) {
+        // --- Pour brancher une vraie IA, remplace ce bloc par un appel fetch à ton backend ou API ---
+        // Prompt utilisé :
+        // Tu es un formateur Unreal Engine. Génére une question quiz au format JSON sur le thème "${theme}" avec un niveau de difficulté "${level}". Inclue une explication à la réponse correcte. Réponds uniquement en JSON strict : { "question": "...", "options": [...], "answer": "...", "explication": "..." }
+        // --- Simulation de génération IA ---
+        const samples = [
+            {
+                theme: "Forces", niveau: "Débutant",
+                question: "Quel node permet d’appliquer une force sur les particules ?",
+                options: ["Apply Force", "Set Position", "Set Velocity", "Drag"],
+                answer: "Apply Force",
+                explication: "Apply Force ajoute une force à la vélocité des particules."
+            },
+            {
+                theme: "Rendu", niveau: "Débutant",
+                question: "Quel node contrôle la couleur des particules au fil du temps ?",
+                options: ["Color Over Life", "Spawn Rate", "Gravity Force", "Point Attractor"],
+                answer: "Color Over Life",
+                explication: "Color Over Life permet de modifier la couleur des particules selon leur âge."
+            },
+            {
+                theme: "Math", niveau: "Intermédiaire",
+                question: "Quel node permet d’ajouter deux vecteurs dans Niagara ?",
+                options: ["Add Vector", "Multiply Vector", "Subtract Vector", "Divide Vector"],
+                answer: "Add Vector",
+                explication: "Add Vector additionne deux vecteurs composant par composant."
+            },
+            {
+                theme: "Logique", niveau: "Avancé",
+                question: "Quel node permet de déclencher un événement lors d’une collision de particule ?",
+                options: ["Event Handler", "Set Variable", "Emitter Update", "Spawn Burst"],
+                answer: "Event Handler",
+                explication: "Event Handler permet de réagir à des événements comme les collisions."
+            },
+            {
+                theme: "Particules", niveau: "Débutant",
+                question: "Quel paramètre contrôle le nombre de particules générées par seconde ?",
+                options: ["Spawn Rate", "Color Over Life", "Gravity Force", "Set Position"],
+                answer: "Spawn Rate",
+                explication: "Spawn Rate définit combien de particules sont créées chaque seconde."
+            }
+        ];
+        // Filtre et génère des questions simulées
+        let filtered = samples.filter(q => q.theme === theme && q.niveau === level);
+        if (filtered.length === 0) filtered = samples; // fallback
+        // Pour la démo, duplique pour avoir assez de questions
+        let result = [];
+        while (result.length < count) {
+            result.push(filtered[Math.floor(Math.random()*filtered.length)]);
+        }
+        // Pour une vraie IA, tu ferais un fetch ici et parserais la réponse JSON
+        return result;
+    }
+
+    startBtn.onclick = async () => {
+        const theme = themeSelect.value;
+        const niveau = niveauSelect.value;
+        if (!theme || !niveau) {
+            alert("Choisissez un thème et un niveau !");
+            return;
+        }
+        startBtn.disabled = true;
+        quizArea.style.display = "none";
+        quizResult.style.display = "none";
+        quiz = await generateQuiz(theme, niveau, Math.floor(Math.random()*6)+5); // 5 à 10 questions
+        current = 0; score = 0;
+        quizArea.style.display = "";
+        showQuestion();
+        startBtn.disabled = false;
+    };
+
+    function showQuestion() {
+        feedbackDiv.innerHTML = "";
+        validateBtn.disabled = true;
+        const q = quiz[current];
+        questionText.textContent = `Q${current+1}. ${q.question}`;
+        optionsForm.innerHTML = "";
+        q.options.forEach(opt => {
+            const id = "opt" + Math.random().toString(36).slice(2,8);
+            const label = document.createElement('label');
+            label.innerHTML = `<input type="radio" name="option" value="${opt}"> ${opt}`;
+            optionsForm.appendChild(label);
+        });
+        optionsForm.onchange = () => {
+            validateBtn.disabled = false;
+        };
+        progressBar.style.width = `${((current)/quiz.length)*100}%`;
+    }
+
+    validateBtn.onclick = (e) => {
+        e.preventDefault();
+        const selected = optionsForm.querySelector('input[name="option"]:checked');
+        if (!selected) return;
+        const q = quiz[current];
+        const isGood = selected.value === q.answer;
+        feedbackDiv.innerHTML = `<div class="quiz-feedback ${isGood ? "good":"bad"}">${isGood ? "Bonne réponse !" : "Mauvaise réponse."}</div>
+            <div class="quiz-explication">${q.explication}</div>`;
+        if (isGood) score++;
+        validateBtn.disabled = true;
+        setTimeout(() => {
+            current++;
+            if (current < quiz.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }, 1500);
+    };
+
+    function showResult() {
+        quizArea.style.display = "none";
+        quizResult.style.display = "";
+        quizResult.innerHTML = `<h2>Résultat</h2>
+            <div>Score : <strong>${score} / ${quiz.length}</strong></div>
+            <button class="quiz-btn" onclick="location.reload()">Rejouer</button>`;
+    }
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Les modules Niagara : Types, Ordre d’exécution et Customisation</h1>
+        <p>
+            Les modules Niagara sont les briques de base qui définissent le comportement des particules. Ils sont organisés par phase et exécutés dans un ordre précis pour chaque Emitter ou System.
+        </p>
+
+        <h2>Types de modules Niagara</h2>
+        <table class="module-table">
+            <tr>
+                <th>Type de module</th>
+                <th>Rôle</th>
+                <th>Exemples</th>
+            </tr>
+            <tr>
+                <td><strong>Spawn</strong></td>
+                <td>Définit comment et quand les particules sont créées.</td>
+                <td>Spawn Rate, Burst Spawn, Spawn Per Unit</td>
+            </tr>
+            <tr>
+                <td><strong>Update</strong></td>
+                <td>Modifie les propriétés des particules à chaque frame.</td>
+                <td>Add Velocity, Drag, Color Over Life, Gravity Force</td>
+            </tr>
+            <tr>
+                <td><strong>Event</strong></td>
+                <td>Réagit à des événements (collision, mort, custom events).</td>
+                <td>Event Handler, Collision Event, Death Event</td>
+            </tr>
+            <tr>
+                <td><strong>Render</strong></td>
+                <td>Définit l’apparence visuelle des particules.</td>
+                <td>Sprite Renderer, Mesh Renderer, Ribbon Renderer</td>
+            </tr>
+        </table>
+
+        <h2>Ordre d’exécution des modules</h2>
+        <div class="order-diagram">
+            <div class="order-box">Spawn</div>
+            <span class="arrow">&#8594;</span>
+            <div class="order-box">Event</div>
+            <span class="arrow">&#8594;</span>
+            <div class="order-box">Update</div>
+            <span class="arrow">&#8594;</span>
+            <div class="order-box">Render</div>
+        </div>
+        <p style="color:#aaa; text-align:center;">
+            <em>Les modules sont exécutés dans cet ordre pour chaque particule à chaque frame.</em>
+        </p>
+
+        <div class="highlight-box">
+            <h3>Créer un module custom</h3>
+            <ul>
+                <li><strong>Script Graph :</strong> Dans l’éditeur Niagara, clique sur "Add Module" &rarr; "New Script", puis utilise le graph visuel pour définir la logique (ex : oscillation, custom force).</li>
+                <li><strong>HLSL :</strong> Pour des besoins avancés, ajoute un "Custom HLSL" node dans le graph et écris ton code HLSL directement.<br>
+                    <code>return sin(Engine.Time * Frequency) * Amplitude;</code>
+                </li>
+            </ul>
+            <p>
+                Les modules custom permettent de créer des comportements uniques et réutilisables dans plusieurs Emitters ou Systems.
+            </p>
+        </div>
+
+        <div class="dynamic-inputs">
+            <h3>Dynamic Inputs</h3>
+            <p>
+                Les <strong>Dynamic Inputs</strong> sont des sous-graphes ou fonctions que tu peux brancher sur les paramètres d’un module (ex : couleur, force, direction). Ils rendent les modules plus flexibles et paramétrables.
+            </p>
+            <ul>
+                <li>Permettent d’utiliser des courbes, des valeurs aléatoires, ou des expressions personnalisées.</li>
+                <li>Exemple : Utiliser une courbe pour faire varier la taille d’une particule selon sa vie.</li>
+            </ul>
+        </div>
+
+        <h2>Exemple interactif : Oscillation personnalisée</h2>
+        <div class="example-section">
+            <label for="freq">Fréquence (Frequency) : <span id="freq-val">2.0</span></label>
+            <input type="range" id="freq" min="0.5" max="5" step="0.1" value="2.0">
+            <label for="amp">Amplitude : <span id="amp-val">50</span></label>
+            <input type="range" id="amp" min="10" max="100" step="1" value="50">
+            <div class="example-output" id="osc-output"></div>
+            <pre><code id="hlsl-code">// HLSL utilisé dans le module custom
+return sin(Engine.Time * Frequency) * Amplitude;</code></pre>
+        </div>
+
+        <script>
+        // Simple oscillation preview
+        const freqSlider = document.getElementById('freq');
+        const ampSlider = document.getElementById('amp');
+        const freqVal = document.getElementById('freq-val');
+        const ampVal = document.getElementById('amp-val');
+        const oscOutput = document.getElementById('osc-output');
+
+        function updateOsc() {
+            const freq = parseFloat(freqSlider.value);
+            const amp = parseFloat(ampSlider.value);
+            freqVal.textContent = freq;
+            ampVal.textContent = amp;
+            // Simulate oscillation value at t = now
+            const t = Date.now() / 1000;
+            const val = Math.sin(t * freq) * amp;
+            oscOutput.textContent = `Valeur oscillante (t=${t.toFixed(1)}s) : ${val.toFixed(2)}`;
+        }
+        freqSlider.addEventListener('input', updateOsc);
+        ampSlider.addEventListener('input', updateOsc);
+        setInterval(updateOsc, 100);
+        updateOsc();
+        </script>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/ModuleScripts/" target="_blank">documentation officielle sur les modules Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

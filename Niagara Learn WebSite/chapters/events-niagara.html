@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Événements Niagara : Types, Rôle et Communication</h1>
+        <p>
+            Les événements Niagara permettent de déclencher des actions complexes lors de la vie d’une particule ou d’un système. Ils sont essentiels pour la logique avancée, l’interactivité et la communication entre émetteurs.
+        </p>
+
+        <h2>Types d’événements Niagara</h2>
+        <table class="event-table">
+            <tr>
+                <th>Type d’événement</th>
+                <th>Déclencheur</th>
+                <th>Utilisation</th>
+            </tr>
+            <tr>
+                <td><strong>Spawned</strong></td>
+                <td>Lorsqu’une particule est créée</td>
+                <td>Initialiser des propriétés, déclencher un effet secondaire (ex : flash à la création)</td>
+            </tr>
+            <tr>
+                <td><strong>Collided</strong></td>
+                <td>Lorsqu’une particule entre en collision</td>
+                <td>Générer des étincelles, rebondir, déclencher un autre emitter</td>
+            </tr>
+            <tr>
+                <td><strong>Custom</strong></td>
+                <td>Défini par l’utilisateur, déclenché par une condition ou un script</td>
+                <td>Synchroniser plusieurs emitters, transmettre des données personnalisées</td>
+            </tr>
+        </table>
+
+        <h2>Rôle des événements dans la logique complexe</h2>
+        <div class="highlight-box">
+            <ul>
+                <li>Permettent de réagir dynamiquement à la vie des particules (naissance, collision, mort, etc.).</li>
+                <li>Déclenchent des effets secondaires : spawn de nouvelles particules, modification de paramètres, interaction avec le monde.</li>
+                <li>Facilitent la communication entre plusieurs emitters pour des effets synchronisés (ex : explosion qui génère des débris et de la fumée).</li>
+            </ul>
+        </div>
+
+        <h2>Transmettre des informations entre émetteurs</h2>
+        <div class="highlight-box">
+            <ul>
+                <li>Un emitter peut <strong>générer</strong> un événement (Event Generator) lors d’une action (ex : collision).</li>
+                <li>Un autre emitter peut <strong>recevoir</strong> cet événement (Event Receiver) et réagir (ex : spawn de particules secondaires).</li>
+                <li>Les événements peuvent transporter des données (position, vitesse, couleur, etc.) pour personnaliser la réaction de l’Emitter receveur.</li>
+            </ul>
+            <p>
+                <strong>Exemple :</strong> Un emitter "Débris" envoie un événement "Collided" avec la position d’impact. Un emitter "Étincelles" reçoit cet événement et génère des particules à cette position.
+            </p>
+        </div>
+
+        <h2>Schéma visuel : Communication par événements</h2>
+        <div class="schema-section">
+            <div class="svg-diagram">
+                <svg width="340" height="180" viewBox="0 0 340 180">
+                    <!-- Emitter A -->
+                    <rect x="20" y="60" width="100" height="60" rx="12" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/>
+                    <text x="70" y="90" text-anchor="middle" fill="#00d4ff" font-size="16" font-weight="bold">Emitter A</text>
+                    <!-- Emitter B -->
+                    <rect x="220" y="60" width="100" height="60" rx="12" fill="#7cf7a722" stroke="#7cf7a7" stroke-width="2"/>
+                    <text x="270" y="90" text-anchor="middle" fill="#7cf7a7" font-size="16" font-weight="bold">Emitter B</text>
+                    <!-- Arrow -->
+                    <polygon points="120,90 220,90 210,80 210,100" fill="#00d4ff"/>
+                    <text x="170" y="75" text-anchor="middle" fill="#00d4ff" font-size="13">Event (ex: Collided)</text>
+                    <!-- Particles -->
+                    <circle cx="60" cy="120" r="10" fill="#f7b07c"/>
+                    <circle cx="250" cy="120" r="10" fill="#f7b07c"/>
+                </svg>
+            </div>
+            <div>
+                <ul>
+                    <li><strong>Emitter A</strong> génère un événement (ex : collision d’une particule).</li>
+                    <li><strong>Emitter B</strong> reçoit l’événement et crée une réaction (ex : spawn d’étincelles).</li>
+                    <li>La donnée de l’événement (ex : position) est transmise pour personnaliser la réaction.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Vidéo de démonstration</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/1rP3nNY2hTo" title="Démo Events Niagara" allowfullscreen></iframe>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/Events/" target="_blank">documentation officielle sur les événements Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

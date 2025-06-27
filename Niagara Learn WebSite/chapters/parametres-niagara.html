@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Les modules Niagara : Types, Ordre d’exécution et Customisation</h1>
+        <p>
+            Les modules Niagara sont les briques de base qui définissent le comportement des particules. Ils sont organisés par phase et exécutés dans un ordre précis pour chaque Emitter ou System. et réutilisables.
+        </p>
+
+        <h2>Types de modules Niagara</h2>
+        <table class="module-table">
+            <tr>
+                <th>Type de module</th>
+                <th>Rôle</th>on</th>
+                <th>Exemples</th>ge</th>
+            </tr>
+            <tr>
+                <td><strong>Spawn</strong></td>
+                <td>Définit comment et quand les particules sont créées.</td>ion spécifique.</td>
+                <td>Spawn Rate, Burst Spawn, Spawn Per Unit</td>odule "Update".</td>
+            </tr>
+            <tr>
+                <td><strong>Update</strong></td>>
+                <td>Modifie les propriétés des particules à chaque frame.</td>
+                <td>Add Velocity, Drag, Color Over Life, Gravity Force</td>mitter.</td>
+            </tr>
+            <tr>
+                <td><strong>Event</strong></td>>
+                <td>Réagit à des événements (collision, mort, custom events).</td>
+                <td>Event Handler, Collision Event, Death Event</td>ité d’une explosion).</td>
+            </tr>
+            <tr>
+                <td><strong>Render</strong></td>></td>
+                <td>Définit l’apparence visuelle des particules.</td> l’inspector ou via Blueprint.</td>
+                <td>Sprite Renderer, Mesh Renderer, Ribbon Renderer</td>et depuis l’éditeur ou le jeu.</td>
+            </tr>
+        </table>
+
+        <h2>Ordre d’exécution des modules</h2>ector</h2>
+        <div class="order-diagram">
+            <div class="order-box">Spawn</div>
+            <span class="arrow">&#8594;</span>es et éditables dans le panneau "Parameters" de l’éditeur Niagara.</li>
+            <div class="order-box">Event</div>à l’utilisateur, clique droit sur le paramètre et choisis <strong>"Expose to Library"</strong> ou <strong>"Expose to User"</strong>.</li>
+            <span class="arrow">&#8594;</span>araissent dans les détails du Niagara System ou du Blueprint qui l’utilise.</li>
+            <div class="order-box">Update</div>ètres dans des catégories pour plus de clarté.</li>
+            <span class="arrow">&#8594;</span>
+            <div class="order-box">Render</div>
+        </div>
+        <p style="color:#aaa; text-align:center;">
+            <em>Les modules sont exécutés dans cet ordre pour chaque particule à chaque frame.</em>
+        </p><ul>
+                <li>Dans un Blueprint, ajoute un composant Niagara System.</li>
+        <div class="highlight-box"> <code>Set Niagara Variable</code> pour modifier un paramètre exposé à l’exécution.</li>
+            <h3>Créer un module custom</h3>gara Variable (Float) "User.Intensity"</code> pour contrôler l’intensité d’un effet en temps réel.</li>
+            <ul><li>Les paramètres peuvent être animés, randomisés ou liés à des événements du jeu.</li>
+                <li><strong>Script Graph :</strong> Dans l’éditeur Niagara, clique sur "Add Module" &rarr; "New Script", puis utilise le graph visuel pour définir la logique (ex : oscillation, custom force).</li>
+                <li><strong>HLSL :</strong> Pour des besoins avancés, ajoute un "Custom HLSL" node dans le graph et écris ton code HLSL directement.<br>
+                    <code>return sin(Engine.Time * Frequency) * Amplitude;</code>
+                </li>enior-section">
+            </ul>our les profils avancés : Animation avec Timelines</h3>
+            <p>>
+                Les modules custom permettent de créer des comportements uniques et réutilisables dans plusieurs Emitters ou Systems.s).</li>
+            </p><li>Connecte la sortie de la Timeline au nœud <code>Set Niagara Variable</code> pour animer un paramètre Niagara (ex : dissipation, couleur, intensité).</li>
+        </div>  <li>Permet de synchroniser des effets Niagara avec des animations, des sons ou des événements de gameplay.</li>
+            </ul>
+            <pre><code>// Exemple Blueprint (pseudo-code)
+Timeline (Alpha 0→1)
+   |
+Set Niagara Variable (Float) "User.Dissolve" = Alpha
+</code></pre>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/Parameters/" target="_blank">documentation officielle sur les paramètres Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

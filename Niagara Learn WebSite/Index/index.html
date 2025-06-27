@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Niagara Learn – Apprendre Niagara pour Unreal Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main>
+        <section class="hero">
+            <h1>Bienvenue sur Niagara Learn</h1>
+            <p class="subtitle">
+                Le site pour comprendre, pratiquer et maîtriser Niagara System dans Unreal Engine 5.
+            </p>
+        </section>
+        <section class="objectives">
+            <h2>Objectifs du site</h2>
+            <ul>
+                <li>Découvrir les concepts clés de Niagara et des VFX temps réel</li>
+                <li>Explorer des tutoriels, schémas, simulateurs et quiz interactifs</li>
+                <li>Accéder à des ressources, astuces et cas pratiques pour progresser</li>
+                <li>Rejoindre une communauté d’apprenants et de créateurs Unreal Engine</li>
+            </ul>
+        </section>
+        <section class="video-welcome">
+            <h2>Vidéo d’accueil</h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/QFxi9p1p2nA" title="Introduction à Niagara Unreal Engine" allowfullscreen></iframe>
+            </div>
+        </section>
+        <section class="trainer">
+            <h2>À propos du créateur</h2>
+            <div class="trainer-box">
+                <img src="../assets/images/Photo_Gabriel.jpg" alt="Gabriel Williams" class="trainer-avatar" />
+                <div>
+                    <strong>Gabriel Williams</strong> – Formateur & créateur VFX temps réel Unreal Engine.<br>
+                    Bienvenue dans l’univers de Niagara, où chaque particule raconte une histoire !<br><br>
+                    Passionné de narration visuelle et d’effets spéciaux interactifs, j’ai à cœur de rendre les concepts complexes accessibles à tous. Sur ce site, vous trouverez des fiches claires, des simulateurs, des quiz, un glossaire et bien d’autres ressources pour apprendre en s’amusant. J’explore aussi l’intelligence artificielle pour enrichir vos outils pédagogiques et vous offrir une expérience unique.<br><br>
+                    Mon objectif : vous donner confiance, éveiller votre créativité et vous montrer que les FX sont à la portée de chacun. Prêt à explorer, expérimenter et progresser ? Plongez dans Niagara Learn et découvrez le plaisir de créer des effets visuels, pas à pas, à votre rythme !
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+fetch("../components/header.html")
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('header-placeholder').innerHTML = html;
+    const headerScript = document.createElement('script');
+    headerScript.src = '../components/js/header.js';
+    document.body.appendChild(headerScript);
+    const searchScript = document.createElement('script');
+    searchScript.src = '../js/search.js';
+    document.body.appendChild(searchScript);
+  });
+</script>
+    <script>
+fetch("../components/footer.html")
+  .then(res => res.text())
+  .then(html => {
+    document.body.insertAdjacentHTML('beforeend', html);
+    // Bouton retour en haut
+    window.addEventListener('scroll', function() {
+      document.getElementById('backToTop').style.display =
+        window.scrollY > 200 ? 'block' : 'none';
+    });
+    document.getElementById('backToTop').onclick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  });
+</script>
+    <style>
+    body {
+        background: #181c20;
+        color: #f2f2f2;
+        font-family: 'Inter', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .hero {
+        text-align: center;
+        margin-top: 38px;
+        margin-bottom: 18px;
+    }
+    .hero h1 {
+        color: #00d4ff;
+        font-size: 2.3em;
+        margin-bottom: 0.2em;
+    }
+    .subtitle {
+        color: #7cf7a7;
+        font-size: 1.2em;
+        margin-bottom: 0.5em;
+    }
+    .objectives {
+        background: #23272b;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto 32px auto;
+        padding: 18px 28px;
+        box-shadow: 0 2px 12px #0003;
+    }
+    .objectives h2 {
+        color: #00d4ff;
+        margin-top: 0;
+    }
+    .objectives ul {
+        margin: 0 0 0 1.2em;
+        color: #e0e0e0;
+    }
+    .video-welcome {
+        text-align: center;
+        margin: 36px 0 32px 0;
+    }
+    .video-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 14px;
+    }
+    .video-container iframe {
+        width: 100%;
+        max-width: 560px;
+        height: 315px;
+        border-radius: 10px;
+        border: none;
+        background: #111;
+    }
+    .quick-access {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    .quick-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+    }
+    .quick-btn {
+        background: #00d4ff;
+        color: #181c20;
+        border: none;
+        border-radius: 8px;
+        padding: 14px 32px;
+        font-size: 1.1em;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 2px 8px #0004;
+        transition: background 0.2s, color 0.2s, transform 0.2s;
+        margin-bottom: 8px;
+        display: inline-block;
+    }
+    .quick-btn:hover {
+        background: #7cf7a7;
+        color: #181c20;
+        transform: translateY(-2px) scale(1.04);
+    }
+    .trainer {
+        max-width: 600px;
+        margin: 0 auto 32px auto;
+        background: #23272b;
+        border-radius: 10px;
+        padding: 18px 28px;
+        box-shadow: 0 2px 12px #0003;
+    }
+    .trainer-box {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-top: 10px;
+    }
+    .trainer-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: #23272b;
+        object-fit: cover;
+        border: 2px solid #00d4ff;
+    }
+    .social-links {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 28px;
+        margin-top: 12px;
+    }
+    .social-icons img {
+        width: 38px;
+        height: 38px;
+        filter: grayscale(0.2) brightness(1.2);
+        transition: filter 0.2s, transform 0.2s;
+    }
+    .social-icons a:hover img {
+        filter: none;
+        transform: scale(1.13);
+    }
+    @media (max-width: 900px) {
+        .objectives, .trainer { max-width: 98vw; }
+        .trainer-box { flex-direction: column; gap: 8px; }
+        .video-container iframe { height: 220px; }
+        .quick-buttons { flex-direction: column; gap: 12px; }
+    }
+    </style>
+
+
+</html></body></body>
+</html>

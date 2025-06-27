@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Nodes Niagara</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="niagara-nodes-demo.css">
+</head>
+<body>
+  <main>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Testeur de Nodes Niagara</h1>
+        <label for="node-select">Choisissez un node :</label>
+        <select id="node-select"></select>
+        <form id="params-form"></form>
+        <label for="points-count">Nombre de points :</label>
+        <select id="points-count">
+            <option value="1">1</option>
+            <option value="10" selected>10</option>
+        </select>
+        <label>Position de spawn :</label>
+        <button type="button" id="spawn-center" class="spawn-btn active">Milieu</button>
+        <button type="button" id="spawn-random" class="spawn-btn">Aléatoire</button>
+        <canvas id="niagara-canvas" width="400" height="300"></canvas>
+    </div>
+  </main>
+    <script type="module" src="niagara-nodes-demo.js"></script>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

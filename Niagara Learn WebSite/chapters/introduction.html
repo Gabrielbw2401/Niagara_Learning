@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Introduction à Niagara dans Unreal Engine</h1>
+        <p>
+            Niagara est le système de simulation d’effets visuels (VFX) nouvelle génération d’Unreal Engine. Il remplace progressivement l’ancien système <strong>Cascade</strong> en offrant une approche plus modulaire, flexible et performante pour la création d’effets de particules avancés.
+        </p>
+
+        <div class="cascade-vs-niagara">
+            <h2>Niagara vs Cascade</h2>
+            <ul>
+                <li><strong>Cascade :</strong> Système historique, basé sur des modules fixes et une logique linéaire. Limité en personnalisation et en performances GPU.</li>
+                <li><strong>Niagara :</strong> Système nodal, entièrement modulaire, supporte le calcul GPU, la création de modules personnalisés et une paramétrisation avancée.</li>
+            </ul>
+        </div>
+
+        <h2>Avantages de Niagara</h2>
+        <div class="advantages">
+            <div class="advantage-box">
+                <strong>Modularité</strong><br>
+                <span>Crée, réutilise et combine des modules pour des effets simples ou complexes.</span>
+            </div>
+            <div class="advantage-box">
+                <strong>Calcul GPU</strong><br>
+                <span>Gère des millions de particules en temps réel grâce à la puissance du GPU.</span>
+            </div>
+            <div class="advantage-box">
+                <strong>Paramétrisation avancée</strong><br>
+                <span>Expose des paramètres pour l’édition en temps réel, l’intégration Blueprint, et l’itération artistique rapide.</span>
+            </div>
+            <div class="advantage-box">
+                <strong>Logique nodale</strong><br>
+                <span>Personnalise chaque étape du système via des graphes visuels et des scripts.</span>
+            </div>
+        </div>
+
+        <h2>Schéma global du système Niagara</h2>
+        <div class="schema">
+            <div class="schema-diagram">
+                <div class="schema-box">System</div>
+                <span class="arrow">&#8594;</span>
+                <div class="schema-box">Emitter(s)</div>
+                <span class="arrow">&#8594;</span>
+                <div class="schema-box">Particle(s)</div>
+                <span class="arrow">&#8594;</span>
+                <div class="schema-box">Modules<br><span style="font-size:0.8em;">(Init, Update, Render, Event)</span></div>
+            </div>
+            <p style="margin-top:18px; color:#aaa;">
+                <em>Un <strong>System</strong> regroupe plusieurs <strong>Emitters</strong>, qui génèrent et contrôlent des <strong>Particles</strong> via des <strong>Modules</strong> personnalisables.</em>
+            </p>
+        </div>
+
+        <h2>Vidéo de présentation</h2>
+        <div class="video-container">
+            <!-- Remplace l’URL ci-dessous par une vidéo officielle si besoin -->
+            <iframe src="https://www.youtube.com/embed/1rP3nNY2hTo" title="Présentation de Niagara Unreal Engine" allowfullscreen></iframe>
+            <!-- Si tu n’as pas de vidéo, décommente la ligne ci-dessous :
+            <div class="video-placeholder">[Vidéo de présentation Niagara]</div>
+            -->
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/" target="_blank">documentation officielle Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

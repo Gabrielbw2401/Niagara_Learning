@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ressources pédagogiques Niagara UE5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main>
+        <div class="container">
+            <h1>Ressources pédagogiques Niagara UE5</h1>
+            <div class="ressources-grid">
+                <!-- Exemple de ressource vidéo -->
+                <div class="ressource-card">
+                    <div class="ressource-type video">Vidéo</div>
+                    <h2>Introduction à Niagara</h2>
+                    <p>Présentation des bases du système Niagara dans Unreal Engine 5, idéale pour débuter.</p>
+                    <a href="https://www.youtube.com/watch?v=QFxi9p1p2nA" target="_blank" class="ressource-btn">Voir la vidéo</a>
+                </div>
+                <!-- Exemple de ressource PDF -->
+                <div class="ressource-card">
+                    <div class="ressource-type pdf">PDF</div>
+                    <h2>Guide complet Niagara (FR)</h2>
+                    <p>Un guide PDF détaillé sur la création d’effets visuels avec Niagara, en français.</p>
+                    <a href="assets/docs/Guide_Niagara_FR.pdf" download class="ressource-btn">Télécharger le PDF</a>
+                </div>
+                <!-- Exemple de ressource lien -->
+                <div class="ressource-card">
+                    <div class="ressource-type link">Lien</div>
+                    <h2>Documentation officielle Unreal</h2>
+                    <p>La documentation officielle d’Epic Games sur Niagara pour UE5.</p>
+                    <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/" target="_blank" class="ressource-btn">Accéder</a>
+                </div>
+                <!-- Exemple de ressource vidéo -->
+                <div class="ressource-card">
+                    <div class="ressource-type video">Vidéo</div>
+                    <h2>Créer un effet de feu réaliste</h2>
+                    <p>Tutoriel vidéo pour réaliser un effet de feu dynamique avec Niagara.</p>
+                    <a href="https://www.youtube.com/watch?v=6pWcQdQvQnE" target="_blank" class="ressource-btn">Voir la vidéo</a>
+                </div>
+                <!-- Exemple de ressource PDF -->
+                <div class="ressource-card">
+                    <div class="ressource-type pdf">PDF</div>
+                    <h2>Exemples de Blueprints & Niagara</h2>
+                    <p>Recueil de Blueprints et d’intégrations Niagara pour s’exercer.</p>
+                    <a href="assets/docs/Blueprints_Niagara_Exemples.pdf" download class="ressource-btn">Télécharger le PDF</a>
+                </div>
+                <!-- Exemple de ressource lien -->
+                <div class="ressource-card">
+                    <div class="ressource-type link">Lien</div>
+                    <h2>Forum Unreal Engine VFX</h2>
+                    <p>Échangez avec la communauté sur les effets visuels et Niagara.</p>
+                    <a href="https://forums.unrealengine.com/c/development-discussion/vfx-niagara-cascade-particles/147" target="_blank" class="ressource-btn">Accéder</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+    <style>
+    .ressources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 28px;
+        margin-top: 32px;
+    }
+    .ressource-card {
+        background: #1a232b;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px #0004;
+        padding: 24px 20px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 220px;
+    }
+    .ressource-type {
+        font-size: 0.95em;
+        font-weight: bold;
+        padding: 3px 12px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        color: #fff;
+        letter-spacing: 1px;
+    }
+    .ressource-type.video { background: #00d4ff; color: #181c20; }
+    .ressource-type.pdf { background: #f7b07c; color: #181c20; }
+    .ressource-type.link { background: #7cf7a7; color: #181c20; }
+    .ressource-card h2 {
+        font-size: 1.15em;
+        margin: 0 0 8px 0;
+        color: #00d4ff;
+    }
+    .ressource-card p {
+        font-size: 1em;
+        color: #e0e0e0;
+        margin-bottom: 18px;
+        margin-top: 0;
+    }
+    .ressource-btn {
+        margin-top: auto;
+        background: #23272b;
+        color: #00d4ff;
+        border: 1px solid #00d4ff;
+        border-radius: 6px;
+        padding: 7px 18px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+        cursor: pointer;
+        font-size: 1em;
+        display: inline-block;
+    }
+    .ressource-btn:hover {
+        background: #00d4ff;
+        color: #181c20;
+    }
+    @media (max-width: 700px) {
+        .ressources-grid {
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+        .ressource-card {
+            padding: 16px 10px 14px 10px;
+        }
+    }
+    </style>
+</body>
+</html>

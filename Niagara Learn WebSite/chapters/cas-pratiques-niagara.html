@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cas pratiques avancés Niagara</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #181c20; color: #f2f2f2; margin: 0; padding: 0; }
+        .container { max-width: 950px; margin: 40px auto; background: #23272b; border-radius: 12px; box-shadow: 0 4px 24px #0006; padding: 32px; }
+        h1 { color: #00d4ff; }
+        h2 { color: #7cf7a7; margin-top: 2em; }
+        .case-section { background: #1a232b; border-radius: 8px; margin: 32px 0; padding: 24px 24px 16px 24px; }
+        .case-header { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .case-header img { width: 220px; max-width: 100%; border-radius: 8px; background: #111; }
+        .case-title { font-size: 1.4em; color: #00d4ff; margin-bottom: 8px; }
+        .download-link { display: inline-block; margin: 12px 0 0 0; color: #7cf7a7; background: #181c20; border-radius: 4px; padding: 6px 14px; text-decoration: none; font-weight: bold; border: 1px solid #7cf7a7; }
+        .tips { background: #23272b; border-left: 4px solid #f7b07c; border-radius: 6px; padding: 10px 16px; margin: 18px 0 0 0; color: #f7b07c; }
+        ul { margin-bottom: 0; }
+        @media (max-width: 700px) {
+            .case-header { flex-direction: column; gap: 12px; }
+            .case-header img { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>5 cas pratiques avancés à réaliser avec Niagara</h1>
+        <p>
+            Voici cinq exemples complexes de VFX réalisables avec Niagara, chacun accompagné d’une capture, d’une explication, d’un lien de téléchargement de projet et de conseils pour aller plus loin.
+        </p>
+
+        <!-- Cas 1 -->
+        <div class="case-section">
+            <div class="case-header">
+                <img src="https://cdn.unrealengine.com/niagara-explosion-1920x1080-7e1c7e1e6e2b.jpg" alt="Explosion Niagara">
+                <div>
+                    <div class="case-title">Explosion avec débris physiques</div>
+                    <div>
+                        <strong>Explication :</strong> Combine un Niagara System pour la fumée, le feu et l’onde de choc, et un Emitter qui déclenche des débris physiques via Blueprint ou Event Handler. Les débris sont des meshes instanciés avec collisions physiques.
+                    </div>
+                    <a class="download-link" href="https://dev.epicgames.com/community/learning/tutorials/1n2/unreal-engine-niagara-explosion-vfx" target="_blank">Télécharger le projet</a>
+                    <div class="tips">
+                        <strong>Tips :</strong> Utilise les événements Niagara pour synchroniser le spawn des débris physiques avec le pic de l’explosion. Optimise les meshes pour limiter le coût physique.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cas 2 -->
+        <div class="case-section">
+            <div class="case-header">
+                <img src="https://docs.unrealengine.com/5.0/images/RenderingAndGraphics/Niagara/NiagaraOverview/NiagaraSmoke.png" alt="Nuage de fumée interactif">
+                <div>
+                    <div class="case-title">Nuage de fumée interactif</div>
+                    <div>
+                        <strong>Explication :</strong> Utilise des particules GPU pour la densité et la fluidité, et des modules de collision pour réagir au joueur ou au vent. Les paramètres exposés permettent de modifier la couleur, la turbulence ou la dissipation en temps réel.
+                    </div>
+                    <a class="download-link" href="https://dev.epicgames.com/community/learning/tutorials/2v3/unreal-engine-interactive-smoke-niagara" target="_blank">Télécharger le projet</a>
+                    <div class="tips">
+                        <strong>Tips :</strong> Pour l’interactivité, combine collisions CPU pour les bords et GPU pour le volume. Anime la turbulence avec une Timeline Blueprint.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cas 3 -->
+        <div class="case-section">
+            <div class="case-header">
+                <img src="https://cdn.unrealengine.com/niagara-heal-vfx-1920x1080-5e2c7e1e6e2b.jpg" alt="VFX de soin Niagara">
+                <div>
+                    <div class="case-title">VFX de soin</div>
+                    <div>
+                        <strong>Explication :</strong> Système Niagara avec des rubans (Ribbon Renderer) pour les flux d’énergie, des sprites pour les particules lumineuses, et un Light Renderer pour l’aura. Les paramètres exposés contrôlent la couleur selon l’équipe ou l’intensité du soin.
+                    </div>
+                    <a class="download-link" href="https://dev.epicgames.com/community/learning/tutorials/3k4/unreal-engine-healing-vfx-niagara" target="_blank">Télécharger le projet</a>
+                    <div class="tips">
+                        <strong>Tips :</strong> Anime la couleur et l’intensité avec des courbes. Utilise des Dynamic Inputs pour varier la taille des rubans selon la puissance du soin.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cas 4 -->
+        <div class="case-section">
+            <div class="case-header">
+                <img src="https://cdn.unrealengine.com/niagara-teleport-vfx-1920x1080-5e2c7e1e6e2b.jpg" alt="Téléportation quantique Niagara">
+                <div>
+                    <div class="case-title">Téléportation quantique</div>
+                    <div>
+                        <strong>Explication :</strong> Effet combinant distorsion, dissolution et rubans. Utilise un Niagara System pour générer des particules qui se contractent, un mesh dissolvant, et des rubans pour la traînée. Contrôle la synchronisation via Blueprint.
+                    </div>
+                    <a class="download-link" href="https://dev.epicgames.com/community/learning/tutorials/4z5/unreal-engine-quantum-teleport-vfx" target="_blank">Télécharger le projet</a>
+                    <div class="tips">
+                        <strong>Tips :</strong> Synchronise la Timeline de téléportation avec l’animation du mesh et le Niagara System pour un effet fluide. Utilise des paramètres exposés pour la couleur et la durée.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cas 5 -->
+        <div class="case-section">
+            <div class="case-header">
+                <img src="https://cdn.unrealengine.com/niagara-weather-vfx-1920x1080-5e2c7e1e6e2b.jpg" alt="Météo dynamique Niagara">
+                <div>
+                    <div class="case-title">Météo dynamique (pluie, neige, vent)</div>
+                    <div>
+                        <strong>Explication :</strong> Niagara System avec plusieurs emitters : pluie (GPU), neige (CPU/GPU), vent (force appliquée). Les paramètres exposés permettent de changer l’intensité, la direction et la transition entre les types de météo en temps réel.
+                    </div>
+                    <a class="download-link" href="https://dev.epicgames.com/community/learning/tutorials/5w6/unreal-engine-dynamic-weather-niagara" target="_blank">Télécharger le projet</a>
+                    <div class="tips">
+                        <strong>Tips :</strong> Utilise des courbes pour animer la transition pluie/neige. Pour le vent, module la force via Blueprint selon la zone ou l’altitude.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, explore la <a href="https://dev.epicgames.com/community/learning" target="_blank">communauté Unreal Engine</a> et la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/" target="_blank">documentation officielle Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

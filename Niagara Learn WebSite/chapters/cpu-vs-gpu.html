@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Particules CPU vs GPU dans Niagara</h1>
+        <p>
+            Niagara permet de simuler des particules sur le CPU ou le GPU. Le choix impacte fortement les performances, les possibilités et les limitations de vos effets visuels.
+        </p>
+
+        <h2>Différences fondamentales</h2>
+        <ul>
+            <li><strong>Particules CPU :</strong> Calculées par le processeur central. Idéales pour les effets interactifs, les collisions précises et les interactions complexes avec le gameplay.</li>
+            <li><strong>Particules GPU :</strong> Calculées par la carte graphique. Permettent de gérer des centaines de milliers de particules en temps réel, mais avec des restrictions sur l’interactivité et certains modules.</li>
+        </ul>
+
+        <h2>Tableau comparatif</h2>
+        <table class="compare-table">
+            <tr>
+                <th>Aspect</th>
+                <th>Particules CPU</th>
+                <th>Particules GPU</th>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>Moins efficace pour de grands volumes (&lt;10 000 particules)</td>
+                <td>Excellente pour des effets massifs (&gt;100 000 particules)</td>
+            </tr>
+            <tr>
+                <td>Interactions</td>
+                <td>Collisions précises, accès complet au Blueprint, événements complexes</td>
+                <td>Interactions limitées, collisions simplifiées, peu ou pas d’accès Blueprint</td>
+            </tr>
+            <tr>
+                <td>Modules disponibles</td>
+                <td>Tous les modules Niagara</td>
+                <td>Certains modules non supportés (ex : Event Handler, certains scripts custom)</td>
+            </tr>
+            <tr>
+                <td>Synchronisation</td>
+                <td>Facile avec le gameplay et d’autres systèmes</td>
+                <td>Difficile, latence possible entre CPU et GPU</td>
+            </tr>
+            <tr>
+                <td>Cas d’usage</td>
+                <td>Effets interactifs, magie, projectiles, effets liés au joueur</td>
+                <td>Pluie, neige, feu, fumée volumineuse, explosions massives</td>
+            </tr>
+            <tr>
+                <td>Limitations</td>
+                <td>Nombre de particules limité par le CPU</td>
+                <td>Pas d’événements complexes, pas de spawn dynamique via Blueprint</td>
+            </tr>
+        </table>
+
+        <h2>Restrictions et recommandations</h2>
+        <div class="highlight-box">
+            <ul>
+                <li>Les particules GPU ne supportent pas tous les modules et événements Niagara.</li>
+                <li>Les collisions GPU sont simplifiées (souvent planaires ou primitives simples).</li>
+                <li>Impossible de lire/écrire des variables personnalisées depuis le CPU en temps réel.</li>
+                <li>Les effets GPU sont parfaits pour les effets de masse, mais à éviter pour les interactions gameplay précises.</li>
+            </ul>
+        </div>
+
+        <div class="senior-section">
+            <h3>Pour les profils avancés : Éviter les pièges GPU</h3>
+            <ul>
+                <li>Attention à la surcharge mémoire vidéo : trop de particules GPU peuvent saturer la VRAM.</li>
+                <li>Évitez les dépendances entre particules GPU et logique gameplay : préférez des effets purement visuels.</li>
+                <li>Testez sur différentes cartes graphiques et plateformes (PC, consoles, mobile).</li>
+                <li>Utilisez le <strong>Profiling Niagara</strong> pour surveiller l’impact sur le GPU.</li>
+                <li>Préférez les collisions CPU pour les effets nécessitant une interaction précise.</li>
+            </ul>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/GPU/" target="_blank">documentation officielle sur les particules GPU Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

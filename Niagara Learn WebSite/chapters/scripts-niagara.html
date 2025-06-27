@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Scripts Niagara : Types, Visual Scripting & HLSL</h1>
+        <p>
+            Les scripts Niagara définissent le comportement des particules, des emitters et des systèmes. Ils peuvent être créés visuellement (graphes) ou en HLSL pour des besoins avancés.
+        </p>
+
+        <h2>Types de scripts Niagara</h2>
+        <table class="script-table">
+            <tr>
+                <th>Type de script</th>
+                <th>Portée</th>
+                <th>Utilisation</th>
+            </tr>
+            <tr>
+                <td><strong>Emitter Script</strong></td>
+                <td>Emitter</td>
+                <td>Contrôle la génération, la durée de vie et les propriétés globales des particules d’un emitter.</td>
+            </tr>
+            <tr>
+                <td><strong>Particle Script</strong></td>
+                <td>Particule</td>
+                <td>Définit le comportement individuel de chaque particule (vitesse, couleur, taille, etc.).</td>
+            </tr>
+            <tr>
+                <td><strong>System Script</strong></td>
+                <td>System</td>
+                <td>Gère la logique globale et la communication entre plusieurs emitters.</td>
+            </tr>
+        </table>
+
+        <h2>Écriture des scripts : Visuel & HLSL</h2>
+        <div class="highlight-box">
+            <h3>Visual Scripting (Graph Editor)</h3>
+            <ul>
+                <li>Utilise des nœuds connectés dans l’éditeur Niagara pour définir la logique (ex : <strong>Add Velocity</strong>, <strong>Set Color</strong>).</li>
+                <li>Permet de créer des scripts sans écrire de code, idéal pour l’itération rapide et la collaboration avec des artistes.</li>
+            </ul>
+            <h3>HLSL (Custom Script)</h3>
+            <ul>
+                <li>Ajoute un nœud <strong>Custom HLSL</strong> dans le graph pour écrire du code HLSL directement.</li>
+                <li>Permet des calculs avancés, des optimisations ou des effets impossibles à réaliser uniquement en visuel.</li>
+            </ul>
+        </div>
+
+        <h2>Exemple : Modifier la vitesse des particules</h2>
+        <div class="example-section">
+            <h3>En visuel (Graph Editor)</h3>
+            <ul>
+                <li>Ajoute le module <strong>Add Velocity</strong> dans la phase "Update" du Particle Script.</li>
+                <li>Connecte une valeur ou un Dynamic Input pour contrôler la direction et l’intensité.</li>
+            </ul>
+            <h3>En HLSL (Custom Script)</h3>
+            <pre><code>// Dans un node Custom HLSL du module Update
+Particle.Velocity += float3(0, 0, 200) * DeltaTime;</code></pre>
+        </div>
+
+        <div class="tip">
+            <strong>Astuce performance :</strong> Privilégie les calculs simples et évite les boucles dans les scripts HLSL. Utilise les paramètres exposés pour ajuster les valeurs sans recompilation.
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/Scripting/" target="_blank">documentation officielle sur les scripts Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

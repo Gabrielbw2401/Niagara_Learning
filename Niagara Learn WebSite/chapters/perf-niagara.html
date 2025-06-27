@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #181c20; color: #f2f2f2; margin: 0; padding: 0; }
+        .container { max-width: 900px; margin: 40px auto; background: #23272b; border-radius: 12px; box-shadow: 0 4px 24px #0006; padding: 32px; }
+        h1 { color: #00d4ff; }
+        h2 { color: #7cf7a7; margin-top: 2em; }
+        h3 { color: #f7b07c; }
+        .highlight-box { background: #1a232b; border-left: 4px solid #00d4ff; border-radius: 8px; padding: 18px 20px; margin: 24px 0; }
+        .senior-section { background: #1a232b; border-left: 4px solid #f7b07c; border-radius: 8px; padding: 18px 20px; margin: 32px 0; }
+        code, pre { background: #181c20; color: #f7b07c; border-radius: 4px; padding: 2px 6px; }
+        ul { margin-bottom: 0; }
+        a { color: #00d4ff; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Analyse des performances Niagara</h1>
+        <p>
+            Pour garantir des effets visuels fluides et optimisés, Niagara propose plusieurs outils d’analyse et de debug. Voici les méthodes et commandes essentielles pour profiler et optimiser vos VFX.
+        </p>
+
+        <h2>Outils de profiling et debug Niagara</h2>
+        <ul>
+            <li>
+                <strong>Niagara Profiler :</strong> 
+                <ul>
+                    <li>Ouvre la fenêtre <strong>Niagara Profiler</strong> dans l’éditeur pour visualiser le coût de chaque système, emitter et module.</li>
+                    <li>Permet d’identifier les modules ou scripts les plus coûteux.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Console Niagara :</strong>
+                <ul>
+                    <li>Utilise les commandes console <code>Niagara.Debug</code>, <code>Niagara.DumpPerformance</code>, <code>Niagara.ShowStats</code> pour afficher des stats en temps réel.</li>
+                    <li>Exemple : <code>Niagara.ShowStats 1</code> affiche les stats dans le viewport.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Debug visuel :</strong>
+                <ul>
+                    <li>Active le <strong>Niagara Debugger</strong> pour voir les particules, modules actifs, valeurs de variables en temps réel.</li>
+                    <li>Affiche les bounding boxes, les collisions, les LODs actifs.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Culling & LOD :</strong>
+                <ul>
+                    <li>Configure le <strong>culling</strong> (désactivation automatique hors champ ou distance) dans les propriétés du Niagara System.</li>
+                    <li>Utilise les <strong>LODs Niagara</strong> pour réduire la complexité des effets à distance.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>GPU Stat :</strong>
+                <ul>
+                    <li>Utilise <code>stat GPU</code> pour mesurer l’impact des effets Niagara sur le GPU.</li>
+                    <li>Identifie les systèmes trop gourmands ou les pics de consommation.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Checklist senior : points à surveiller avant livraison</h2>
+        <div class="senior-section">
+            <ul>
+                <li>Nombre de particules max (CPU/GPU) sous contrôle (&lt; 10k CPU, &lt; 100k GPU recommandé).</li>
+                <li>Modules coûteux (boucles, Custom HLSL, collisions complexes) optimisés ou évités.</li>
+                <li>Utilisation des LODs et du culling pour tous les systèmes visibles à distance.</li>
+                <li>Pas de leaks de particules (particules qui ne meurent jamais).</li>
+                <li>Profiling sur plusieurs plateformes (PC, console, mobile si besoin).</li>
+                <li>Pas de warnings/erreurs dans le Niagara System et dans la console.</li>
+                <li>Utilisation raisonnée des lights dynamiques et des mesh renderers.</li>
+                <li>Paramètres exposés bien nommés et documentés pour le gameplay/design.</li>
+                <li>Effets testés en situation réelle (jeu, gameplay, multi-effets simultanés).</li>
+                <li>Documentation interne ou commentaire sur les systèmes complexes.</li>
+            </ul>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/Performance/" target="_blank">documentation officielle sur l’optimisation Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

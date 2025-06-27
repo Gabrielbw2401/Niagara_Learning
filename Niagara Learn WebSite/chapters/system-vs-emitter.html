@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Différence entre Niagara System et Niagara Emitter</h1>
+        <p>
+            Dans Unreal Engine, le système Niagara repose sur deux concepts fondamentaux : <strong>System</strong> et <strong>Emitter</strong>. Comprendre leur rôle est essentiel pour concevoir des effets visuels modulaires et puissants.
+        </p>
+
+        <h2>Schéma explicatif</h2>
+        <div class="schema-section">
+            <div>
+                <!-- SVG Schéma -->
+                <div class="svg-diagram">
+                    <svg width="320" height="180" viewBox="0 0 320 180">
+                        <!-- System -->
+                        <rect x="10" y="60" width="90" height="60" rx="12" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/>
+                        <text x="55" y="90" text-anchor="middle" fill="#00d4ff" font-size="18" font-weight="bold">System</text>
+                        <!-- Emitters -->
+                        <rect x="120" y="30" width="80" height="40" rx="8" fill="#7cf7a722" stroke="#7cf7a7" stroke-width="2"/>
+                        <rect x="120" y="110" width="80" height="40" rx="8" fill="#7cf7a722" stroke="#7cf7a7" stroke-width="2"/>
+                        <text x="160" y="55" text-anchor="middle" fill="#7cf7a7" font-size="14">Emitter A</text>
+                        <text x="160" y="135" text-anchor="middle" fill="#7cf7a7" font-size="14">Emitter B</text>
+                        <!-- Arrows -->
+                        <polygon points="100,90 120,50 120,70" fill="#00d4ff"/>
+                        <polygon points="100,90 120,130 120,110" fill="#00d4ff"/>
+                        <!-- Particles -->
+                        <circle cx="230" cy="50" r="12" fill="#f7b07c"/>
+                        <circle cx="260" cy="50" r="8" fill="#f7b07c"/>
+                        <circle cx="245" cy="130" r="10" fill="#f7b07c"/>
+                        <circle cx="275" cy="130" r="7" fill="#f7b07c"/>
+                        <text x="250" y="30" fill="#f7b07c" font-size="12">Particles</text>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <ul>
+                    <li><strong>System :</strong> Conteneur global qui orchestre un ou plusieurs Emitters.</li>
+                    <li><strong>Emitter :</strong> Génère et contrôle un type de particule (fumée, feu, débris, etc.).</li>
+                    <li>Un System peut combiner plusieurs Emitters pour créer des effets complexes.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Tableau comparatif</h2>
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Niagara System</th>
+                <th>Niagara Emitter</th>
+            </tr>
+            <tr>
+                <td>Rôle</td>
+                <td>Regroupe et orchestre plusieurs Emitters pour former un effet complet.</td>
+                <td>Définit le comportement d’un type de particule (spawn, update, render).</td>
+            </tr>
+            <tr>
+                <td>Réutilisation</td>
+                <td>Spécifique à un effet ou une séquence (ex : explosion, pluie, magie).</td>
+                <td>Peut être réutilisé dans plusieurs Systems (ex : Emitter "Fumée" utilisé dans "Explosion" et "Cheminée").</td>
+            </tr>
+            <tr>
+                <td>Paramétrage</td>
+                <td>Paramètres globaux, contrôle la synchronisation des Emitters.</td>
+                <td>Paramètres propres à la génération et au comportement des particules.</td>
+            </tr>
+            <tr>
+                <td>Exemple</td>
+                <td>System "Explosion" = Emitter "Débris" + Emitter "Fumée" + Emitter "Flash"</td>
+                <td>Emitter "Fumée" = particules grises, fade-out, turbulence</td>
+            </tr>
+        </table>
+
+        <h2>Démonstration vidéo</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/1rP3nNY2hTo" title="Démo Niagara System vs Emitter" allowfullscreen></iframe>
+            <!-- Si tu veux un lien direct vers Unreal Engine :
+            <div class="video-placeholder">
+                <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/" target="_blank">Voir la démo dans Unreal Engine</a>
+            </div>
+            -->
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour approfondir, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/" target="_blank">documentation officielle Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

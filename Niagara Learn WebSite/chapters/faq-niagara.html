@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>FAQ Niagara : Questions fréquentes, erreurs et bonnes pratiques</h1>
+        <div class="faq-list">
+            <div class="faq-q">1. Quelle est la différence entre Cascade et Niagara ?</div>
+            <div class="faq-a">Niagara est le système de particules moderne d’Unreal Engine, plus flexible, modulaire et performant que Cascade, avec support GPU, scripting visuel et paramètres exposés.</div>
+
+            <div class="faq-q">2. Comment choisir entre particules CPU et GPU ?</div>
+            <div class="faq-a">CPU pour l’interactivité et la logique complexe, GPU pour les effets massifs et purement visuels. Voir la page dédiée pour un comparatif détaillé.</div>
+
+            <div class="faq-q">3. Pourquoi mes particules Niagara ne s’affichent pas ?</div>
+            <div class="faq-a">Vérifiez que le système de particules est bien ajouté à la scène, qu’il est activé et que les paramètres de rendu sont correctement configurés.</div>
+
+            <div class="faq-q">4. Comment améliorer les performances de mes effets Niagara ?</div>
+            <div class="faq-a">Utilisez des particules GPU, réduisez le nombre de particules, optimisez les textures et les matériaux, et évitez les surcharges de scripts.</div>
+
+            <div class="faq-q">5. Où puis-je trouver des tutoriels sur Niagara ?</div>
+            <div class="faq-a">Consultez la documentation officielle d’Unreal Engine, les forums, et des plateformes comme YouTube pour des tutoriels vidéo.</div>
+        </div>
+
+        <div class="highlight-box">
+            <strong>Erreur courante :</strong> Si vos particules n'apparaissent pas, assurez-vous que le calque de rendu est activé et que la caméra est bien positionnée.
+        </div>
+
+        <div class="best-practices">
+            <strong>Meilleures pratiques :</strong> Toujours prévisualiser les effets dans des conditions d'éclairage similaires à celles de votre scène finale.
+        </div>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

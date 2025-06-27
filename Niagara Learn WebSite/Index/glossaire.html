@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Glossaire Niagara</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .glossary-list { margin: 32px auto; max-width: 700px; }
+        .letter-group { margin-bottom: 32px; }
+        .letter-title { font-size: 1.5em; margin: 16px 0 8px 0; color: #00d4ff; }
+        .glossary-entry { display: inline-block; margin: 6px 12px 6px 0; position: relative; }
+        .glossary-link { font-weight: bold; color: #00d4ff; background: none; border: none; cursor: pointer; font-size: 1em; }
+        .glossary-tooltip {
+            display: none;
+            position: absolute;
+            left: 0; top: 120%;
+            background: #23272b;
+            color: #fff;
+            border-radius: 6px;
+            padding: 10px 16px;
+            box-shadow: 0 2px 12px #0008;
+            z-index: 10;
+            min-width: 220px;
+            max-width: 340px;
+            font-size: 0.98em;
+        }
+        .glossary-entry:hover .glossary-tooltip,
+        .glossary-entry:focus-within .glossary-tooltip {
+            display: block;
+        }
+        #no-result { color: #ff3c3c; margin: 32px 0; text-align: center; }
+        #searchGlossary { width: 320px; max-width: 90vw; margin: 24px auto 32px auto; display: block; padding: 10px 14px; border-radius: 6px; border: 1px solid #333; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="glossary-list">
+        <h1>Glossaire Niagara</h1>
+        <input id="searchGlossary" type="text" placeholder="Rechercher un node...">
+        <div id="glossary-root"></div>
+        <div id="no-result" style="display:none;">Aucun résultat</div>
+    </main>
+    <script>
+    // Header dynamique
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script src="../js/glossary.js"></script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

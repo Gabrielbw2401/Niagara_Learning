@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Déclencher des effets Niagara via Blueprint</h1>
+        <p>
+            L’intégration de Niagara dans les Blueprints permet de déclencher des effets visuels dynamiques en réponse aux événements du jeu (collision, input, animation, etc.).
+        </p>
+
+        <h2>Intégration dans les événements du jeu</h2>
+        <ul>
+            <li>Ajoute un composant <strong>Niagara System</strong> à ton Blueprint d’acteur.</li>
+            <li>Utilise les événements (ex : <code>OnComponentHit</code>, <code>OnBeginOverlap</code>, <code>OnFire</code>) pour déclencher ou arrêter l’effet.</li>
+            <li>Tu peux aussi <strong>spawner</strong> un effet Niagara à la volée avec <code>Spawn System at Location</code>.</li>
+        </ul>
+
+        <h2>Schéma Blueprint : Déclencher un effet à la collision</h2>
+        <div class="schema-section">
+            <div class="svg-diagram">
+                <!-- Schéma simplifié Blueprint -->
+                <svg width="360" height="180" viewBox="0 0 360 180">
+                    <!-- Event node -->
+                    <rect x="10" y="60" width="110" height="40" rx="8" fill="#00d4ff22" stroke="#00d4ff" stroke-width="2"/>
+                    <text x="65" y="85" text-anchor="middle" fill="#00d4ff" font-size="14" font-weight="bold">OnComponentHit</text>
+                    <!-- Arrow -->
+                    <polygon points="120,80 140,80 135,75 135,85" fill="#00d4ff"/>
+                    <!-- Spawn node -->
+                    <rect x="140" y="60" width="110" height="40" rx="8" fill="#7cf7a722" stroke="#7cf7a7" stroke-width="2"/>
+                    <text x="195" y="85" text-anchor="middle" fill="#7cf7a7" font-size="14" font-weight="bold">Spawn System at Location</text>
+                    <!-- Arrow -->
+                    <polygon points="250,80 270,80 265,75 265,85" fill="#00d4ff"/>
+                    <!-- Niagara node -->
+                    <rect x="270" y="60" width="80" height="40" rx="8" fill="#f7b07c22" stroke="#f7b07c" stroke-width="2"/>
+                    <text x="310" y="85" text-anchor="middle" fill="#f7b07c" font-size="14" font-weight="bold">Niagara FX</text>
+                </svg>
+            </div>
+            <div>
+                <ul>
+                    <li>L’événement du jeu (<strong>OnComponentHit</strong>) déclenche le spawn d’un effet Niagara à la position de l’impact.</li>
+                    <li>Le Niagara System peut être paramétré dynamiquement avant ou après le spawn.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Exemple de code Blueprint (pseudo-code commenté)</h2>
+        <pre><code>// Dans l’Event Graph de ton Blueprint
+
+// 1. Déclarer la référence du Niagara System à utiliser
+NiagaraSystem = FX_Explosion
+
+// 2. Sur l’événement de collision
+Event OnComponentHit(HitLocation)
+{
+    // 3. Spawner l’effet à la position de l’impact
+    SpawnSystemAtLocation(NiagaraSystem, HitLocation)
+    
+    // 4. (Optionnel) Modifier un paramètre exposé dynamiquement
+    SetNiagaraVariableFloat("User.Intensity", 2.0)
+}
+</code></pre>
+
+        <div class="highlight-box">
+            <h3>Blueprint dynamique avec Niagara Parameters</h3>
+            <ul>
+                <li>Expose des paramètres dans Niagara (ex : couleur, intensité, durée).</li>
+                <li>Dans Blueprint, utilise <code>Set Niagara Variable</code> pour modifier ces paramètres à l’exécution.</li>
+                <li>Permet de personnaliser chaque instance d’effet selon le contexte du jeu (ex : couleur différente selon l’équipe, intensité selon la puissance de l’arme).</li>
+            </ul>
+            <pre><code>// Exemple : changer la couleur d’un effet
+SetNiagaraVariableLinearColor("User.Color", CouleurEquipe)</code></pre>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/Blueprints/" target="_blank">documentation officielle sur l’intégration Blueprint & Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TITRE DE LA PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="container">
+        <h1>Options de rendu dans Niagara</h1>
+        <p>
+            Niagara propose plusieurs types de renderers pour afficher les particules : <strong>Sprite Renderer</strong>, <strong>Mesh Renderer</strong>, <strong>Ribbon Renderer</strong> et <strong>Light Renderer</strong>. Chaque option a ses usages, avantages et contraintes.
+        </p>
+
+        <h2>Types de Renderers</h2>
+        <div class="renderer-section">
+            <div class="renderer-box">
+                <h3>Sprite Renderer</h3>
+                <img src="https://docs.unrealengine.com/5.0/images/RenderingAndGraphics/Niagara/NiagaraOverview/NiagaraSpriteRenderer.png" alt="Exemple Sprite Renderer">
+                <ul>
+                    <li>Affiche chaque particule comme une image 2D orientée vers la caméra.</li>
+                    <li>Idéal pour : feu, fumée, étincelles, effets volumétriques légers.</li>
+                    <li>Très performant, supporte la plupart des modules et effets.</li>
+                </ul>
+            </div>
+            <div class="renderer-box">
+                <h3>Mesh Renderer</h3>
+                <img src="https://docs.unrealengine.com/5.0/images/RenderingAndGraphics/Niagara/NiagaraOverview/NiagaraMeshRenderer.png" alt="Exemple Mesh Renderer">
+                <ul>
+                    <li>Affiche chaque particule comme une instance de mesh 3D.</li>
+                    <li>Idéal pour : débris, feuilles, objets volumétriques, projectiles.</li>
+                    <li>Moins performant que le sprite, attention au nombre de meshes.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="renderer-section">
+            <div class="renderer-box">
+                <h3>Ribbon Renderer</h3>
+                <img src="https://docs.unrealengine.com/5.0/images/RenderingAndGraphics/Niagara/NiagaraOverview/NiagaraRibbonRenderer.png" alt="Exemple Ribbon Renderer">
+                <ul>
+                    <li>Crée des traînées continues reliant les particules (rubans).</li>
+                    <li>Idéal pour : lasers, magie, filaments, traînées de projectiles.</li>
+                    <li>Peut être combiné avec des effets de distorsion ou d’animation UV.</li>
+                </ul>
+            </div>
+            <div class="renderer-box">
+                <h3>Light Renderer</h3>
+                <img src="https://docs.unrealengine.com/5.0/images/RenderingAndGraphics/Niagara/NiagaraOverview/NiagaraLightRenderer.png" alt="Exemple Light Renderer">
+                <ul>
+                    <li>Génère une lumière dynamique pour chaque particule.</li>
+                    <li>Idéal pour : étincelles, feux, effets magiques lumineux.</li>
+                    <li>Attention au coût en performance si trop de lights sont générées.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Tableau d’optimisation des renderers</h2>
+        <table class="opt-table">
+            <tr>
+                <th>Renderer</th>
+                <th>Performance</th>
+                <th>Cas d’usage optimal</th>
+                <th>Conseils d’optimisation</th>
+            </tr>
+            <tr>
+                <td>Sprite</td>
+                <td>+++</td>
+                <td>Effets volumineux, feu, fumée, poussière</td>
+                <td>Limiter la taille des textures, utiliser l’alpha clipping</td>
+            </tr>
+            <tr>
+                <td>Mesh</td>
+                <td>+</td>
+                <td>Débris, objets 3D, projectiles</td>
+                <td>Limiter le nombre de particules, utiliser des meshes low-poly</td>
+            </tr>
+            <tr>
+                <td>Ribbon</td>
+                <td>++</td>
+                <td>Traînées, lasers, magie</td>
+                <td>Limiter la longueur et le nombre de rubans, optimiser les matériaux</td>
+            </tr>
+            <tr>
+                <td>Light</td>
+                <td>-</td>
+                <td>Effets lumineux ponctuels</td>
+                <td>Limiter le nombre de lights, utiliser l’intensité dynamique</td>
+            </tr>
+        </table>
+
+        <div class="advanced-section">
+            <h3>Exemples d’utilisation avancée</h3>
+            <ul>
+                <li><strong>Sprite + Ribbon :</strong> Combinez des sprites pour la base de l’effet et des rubans pour ajouter du mouvement ou de la magie.</li>
+                <li><strong>Mesh animé :</strong> Utilisez des meshes avec animation de vertex pour des effets organiques (ex : feuilles qui bougent).</li>
+                <li><strong>Light dynamique :</strong> Animez l’intensité ou la couleur des lights en fonction de la vie de la particule pour des effets de pulsation.</li>
+                <li><strong>LOD Niagara :</strong> Utilisez les niveaux de détail pour réduire la complexité des renderers à distance.</li>
+            </ul>
+        </div>
+
+        <p style="margin-top:32px; color:#aaa;">
+            Pour aller plus loin, consulte la <a href="https://docs.unrealengine.com/5.0/fr/docs/RenderingAndGraphics/Niagara/Renderers/" target="_blank">documentation officielle sur les renderers Niagara</a>.
+        </p>
+    </div>
+    <script>
+    fetch("../components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-placeholder').innerHTML = html;
+        // Ici tu ajoutes dynamiquement le script header.js :
+        const headerScript = document.createElement('script');
+        headerScript.src = '../components/js/header.js';
+        document.body.appendChild(headerScript);
+        // Idem pour search.js
+        const searchScript = document.createElement('script');
+        searchScript.src = '../js/search.js';
+        document.body.appendChild(searchScript);
+      });
+    </script>
+    <script>
+    fetch("../components/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+          document.getElementById('backToTop').style.display =
+            window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      });
+    </script>
+</body>
+</html>
